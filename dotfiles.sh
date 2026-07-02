@@ -5,14 +5,14 @@ DOTFILES_DIR="$(dirname "$(realpath "$0")")"
 
 DOTFILES=(
 	~/.bashrc
-    ~/.wezterm.lua
     ~/.tmux.conf
+    ~/.vimrc
     ~/.config/nvim/init.lua
-    ~/.config/i3
-    ~/.zshrc
 )
 
-
+    # ~/.zshrc
+    # ~/.config/i3
+    # ~/.wezterm.lua
     # ~/.config/hypr
     # ~/.vimrc
 	# ~/.bashrc

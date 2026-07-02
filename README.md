@@ -1,12 +1,19 @@
 
-# Vim
-```
-# Backup old config (if config existed before)
-mv ~/.vimrc ~/.vimrc.backup.$(date +%Y%m%d%H%M%S)
-# Install
-curl -fsSL https://raw.githubusercontent.com/LeanderZiehm/dotfiles/main/sync/.vimrc -o ~/.vimrc
+clone this repository with ssh into home dir ~/:
 
 ```
+git clone git@github.com:leanderziehm/dotfiles.git
+```
+or http:
+```
+git clone https://github.com/leanderziehm/dotfiles.git
+```
+
+```
+cd ~/dotfiles
+make
+```
+
 
 
 # Nvim
@@ -18,21 +25,25 @@ mv ~/.config/nvim/init.lua ~/.config/nvim/init.lua.backup.$(date +%Y%m%d%H%M%S)
 mkdir -p ~/.config/nvim
 
 # Install
-curl -fsSL https://raw.githubusercontent.com/LeanderZiehm/dotfiles/refs/heads/main/sync/.config/nvim/init.lua -o ~/.config/nvim/init.lua
+curl -fsSL https://raw.githubusercontent.com/leanderziehm/dotfiles/refs/heads/main/sync/default/.config/nvim/init.lua -o ~/.config/nvim/init.lua
 ```
 
-# Tmux
+# Tmux Install
+
+```
+curl -fsSL https://raw.githubusercontent.com/LeanderZiehm/dotfiles/refs/heads/main/sync/default/.tmux.conf -o ~/.tmux.conf
 
 ```
 
-
+# Vim
+```
+# Backup old config (if config existed before)
+mv ~/.vimrc ~/.vimrc.backup.$(date +%Y%m%d%H%M%S)
 # Install
-curl -fsSL https://raw.githubusercontent.com/LeanderZiehm/dotfiles/refs/heads/main/sync/.tmux.conf -o ~/.tmux.conf
+curl -fsSL https://raw.githubusercontent.com/leanderziehm/dotfiles/refs/heads/main/sync/default/.vimrc -o ~/.vimrc
 
 ```
 
 
 # TODO
-
-under sync folder create a folder for each hostname to have unique configs per distro
 create a script which lets the user select which configs to use/download/get/install from the sync
