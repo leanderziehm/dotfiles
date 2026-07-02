@@ -12,6 +12,8 @@ git clone https://github.com/leanderziehm/dotfiles.git
 ```
 cd ~/dotfiles
 make
+make s
+make g
 ```
 
 
