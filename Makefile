@@ -18,10 +18,10 @@ create-shortcut:
 		echo "Run: source $$RC_FILE (or restart your shell)"; \
 	fi
 
-1 s sync 1sync sync1:
+1 s sync:
 	bash dotfiles.sh sync
 
-2 g sync 1sync sync1:
+2 g git:
 	bash dotfiles.sh git
 
 
