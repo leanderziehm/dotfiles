@@ -103,6 +103,135 @@ vim.keymap.set({ "n", "i", "v" }, "<S-Right>", "<Nop>", opts)
 
 
 
+
+
+
+-- AUTO SAVE MD files
+
+vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "TextChanged" }, {
+  pattern = "*.md",
+  callback = function()
+    if vim.bo.modified then
+      vim.cmd("silent write")
+    end
+  end,
+})
+
+
+
+
+
+
+-- THEME
+vim.cmd.colorscheme("zellner")
+
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+
+-- THEME SWITCHER
+
+-- THEMES(that-i-like): run, industry, unokai, slate, sorbet, . | torte, unokai, lunaperche, ron, slate, sorbet, industry
+-- Set options before colorscheme
+-- vim.g.unokai_transparent_background = 0  -- 0 for dark background
+-- vim.g.unokai_saturation = 1.2            -- increase saturation
+-- vim.g.unokai_contrast = "high"           -- sometimes "low", "medium", "high"
+--vim.api.nvim_command('colorscheme unokai')
+
+
+--vim.api.nvim_command('colorscheme unokai')
+--vim.o.background = 'dark'
+
+-- live theme preview with space + t + n
+-- Store themes
+local themes = vim.fn.getcompletion('', 'color')
+local current_index = 1
+
+-- Function to set the theme
+local function set_theme(index)
+    vim.cmd('colorscheme ' .. themes[index])
+    print("Theme: " .. themes[index])
+end
+
+-- Cycle forward
+_G.NextTheme = function()
+    current_index = current_index + 1
+    if current_index > #themes then current_index = 1 end
+    set_theme(current_index)
+end
+
+-- Cycle backward
+_G.PrevTheme = function()
+    current_index = current_index - 1
+    if current_index < 1 then current_index = #themes end
+    set_theme(current_index)
+end
+
+vim.api.nvim_set_keymap('n', '<leader>tn', ':lua NextTheme()<CR>', { noremap = true, silent = true })
+
+-- -- CUSTOM THEME
+--
+-- -- mycolors.lua
+-- local vim = vim
+--
+-- -- Define colors
+-- local colors = {
+--     bg        = "#000000", -- black background
+--     fg        = "#FFFFFF", -- normal text
+--     gray      = "#888888", -- special characters, comments, punctuation
+--     green     = "#A6E22E", -- strings
+--     blue      = "#66D9EF", -- keywords, for, while, if, etc.
+--     yellow    = "#fffb00", -- numbers, line numbers
+--     red       = "#F92672", -- errors, warnings
+--     purple    = "#AE81FF", -- functions, types
+--     orange    = "#ffffff", -- constants, special values
+--     cyan      = "#66D9EF", -- builtins, booleans, nil
+--     white_transparent = "#FFFFFF80", -- side bar, transparent-ish
+-- }
+--
+-- -- Set general editor colors
+-- vim.cmd("highlight Normal guifg="..colors.fg.." guibg="..colors.bg)
+-- vim.cmd("highlight LineNr guifg="..colors.yellow.." guibg="..colors.bg)
+-- vim.cmd("highlight CursorLineNr guifg="..colors.orange.." guibg="..colors.bg)
+-- vim.cmd("highlight CursorLine guibg=#121212") -- subtle line highlight
+-- -- Cursor colors
+-- --vim.cmd("highlight VertSplit guifg="..colors.white_transparent.." guibg="..colors.bg)
+--
+-- -- Syntax highlighting
+-- vim.cmd("highlight Comment guifg="..colors.gray.." gui=italic")
+-- vim.cmd("highlight Constant guifg="..colors.orange)
+-- vim.cmd("highlight String guifg="..colors.green)
+-- vim.cmd("highlight Character guifg="..colors.green)
+-- vim.cmd("highlight Number guifg="..colors.yellow)
+-- vim.cmd("highlight Boolean guifg="..colors.cyan)
+-- vim.cmd("highlight Identifier guifg="..colors.purple)
+-- vim.cmd("highlight Function guifg="..colors.purple)
+-- vim.cmd("highlight Statement guifg="..colors.blue.." gui=bold") -- for, if, else, return
+-- vim.cmd("highlight Conditional guifg="..colors.blue)
+-- vim.cmd("highlight Repeat guifg="..colors.blue)
+-- vim.cmd("highlight Operator guifg="..colors.gray)
+-- vim.cmd("highlight Type guifg="..colors.purple)
+-- vim.cmd("highlight Keyword guifg="..colors.blue)
+-- vim.cmd("highlight PreProc guifg="..colors.orange)
+-- vim.cmd("highlight Special guifg="..colors.gray)
+-- vim.cmd("highlight Error guifg="..colors.red.." guibg="..colors.bg.." gui=bold")
+-- vim.cmd("highlight Todo guifg="..colors.red.." guibg="..colors.bg.." gui=bold")
+--
+-- -- Extra highlights for UI
+-- vim.cmd("highlight Pmenu guibg=#111111 guifg="..colors.fg)
+-- vim.cmd("highlight PmenuSel guibg=#222222 guifg="..colors.blue)
+-- vim.cmd("highlight Search guibg=#333333 guifg="..colors.yellow)
+-- vim.cmd("highlight Visual guibg=#222222")
+-- vim.cmd("highlight StatusLine guibg=#111111 guifg="..colors.fg)
+-- vim.cmd("highlight StatusLineNC guibg=#111111 guifg="..colors.gray)
+-- vim.cmd("highlight TabLine guibg=#111111 guifg="..colors.gray)
+-- vim.cmd("highlight TabLineSel guibg=#111111 guifg="..colors.blue)
+-- vim.cmd("highlight LineNrAbove guifg="..colors.gray.." guibg="..colors.bg)
+-- vim.cmd("highlight LineNrBelow guifg="..colors.gray.." guibg="..colors.bg)
+--
+-- --vim.o.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-CursorIM,r-cr:hor20-CursorReplace"
+--
+
 -- =========================================================
 -- Core UI
 -- =========================================================
@@ -171,106 +300,4 @@ vim.o.backupcopy = "yes" -- avoid issues with some tools like git
 ------------
 
 
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
 
-
--- THEMES(that-i-like): run, industry, unokai, slate, sorbet, . | torte, unokai, lunaperche, ron, slate, sorbet, industry
--- Set options before colorscheme
--- vim.g.unokai_transparent_background = 0  -- 0 for dark background
--- vim.g.unokai_saturation = 1.2            -- increase saturation
--- vim.g.unokai_contrast = "high"           -- sometimes "low", "medium", "high"
---vim.api.nvim_command('colorscheme unokai')
-
-
---vim.api.nvim_command('colorscheme unokai')
---vim.o.background = 'dark'
-
--- live theme preview with space + t + n
--- Store themes
-local themes = vim.fn.getcompletion('', 'color')
-local current_index = 1
-
--- Function to set the theme
-local function set_theme(index)
-    vim.cmd('colorscheme ' .. themes[index])
-    print("Theme: " .. themes[index])
-end
-
--- Cycle forward
-_G.NextTheme = function()
-    current_index = current_index + 1
-    if current_index > #themes then current_index = 1 end
-    set_theme(current_index)
-end
-
--- Cycle backward
-_G.PrevTheme = function()
-    current_index = current_index - 1
-    if current_index < 1 then current_index = #themes end
-    set_theme(current_index)
-end
-
-vim.api.nvim_set_keymap('n', '<leader>tn', ':lua NextTheme()<CR>', { noremap = true, silent = true })
-
--- CUSTOM THEME
-
--- mycolors.lua
-local vim = vim
-
--- Define colors
-local colors = {
-    bg        = "#000000", -- black background
-    fg        = "#FFFFFF", -- normal text
-    gray      = "#888888", -- special characters, comments, punctuation
-    green     = "#A6E22E", -- strings
-    blue      = "#66D9EF", -- keywords, for, while, if, etc.
-    yellow    = "#fffb00", -- numbers, line numbers
-    red       = "#F92672", -- errors, warnings
-    purple    = "#AE81FF", -- functions, types
-    orange    = "#ffffff", -- constants, special values
-    cyan      = "#66D9EF", -- builtins, booleans, nil
-    white_transparent = "#FFFFFF80", -- side bar, transparent-ish
-}
-
--- Set general editor colors
-vim.cmd("highlight Normal guifg="..colors.fg.." guibg="..colors.bg)
-vim.cmd("highlight LineNr guifg="..colors.yellow.." guibg="..colors.bg)
-vim.cmd("highlight CursorLineNr guifg="..colors.orange.." guibg="..colors.bg)
-vim.cmd("highlight CursorLine guibg=#121212") -- subtle line highlight
--- Cursor colors
---vim.cmd("highlight VertSplit guifg="..colors.white_transparent.." guibg="..colors.bg)
-
--- Syntax highlighting
-vim.cmd("highlight Comment guifg="..colors.gray.." gui=italic")
-vim.cmd("highlight Constant guifg="..colors.orange)
-vim.cmd("highlight String guifg="..colors.green)
-vim.cmd("highlight Character guifg="..colors.green)
-vim.cmd("highlight Number guifg="..colors.yellow)
-vim.cmd("highlight Boolean guifg="..colors.cyan)
-vim.cmd("highlight Identifier guifg="..colors.purple)
-vim.cmd("highlight Function guifg="..colors.purple)
-vim.cmd("highlight Statement guifg="..colors.blue.." gui=bold") -- for, if, else, return
-vim.cmd("highlight Conditional guifg="..colors.blue)
-vim.cmd("highlight Repeat guifg="..colors.blue)
-vim.cmd("highlight Operator guifg="..colors.gray)
-vim.cmd("highlight Type guifg="..colors.purple)
-vim.cmd("highlight Keyword guifg="..colors.blue)
-vim.cmd("highlight PreProc guifg="..colors.orange)
-vim.cmd("highlight Special guifg="..colors.gray)
-vim.cmd("highlight Error guifg="..colors.red.." guibg="..colors.bg.." gui=bold")
-vim.cmd("highlight Todo guifg="..colors.red.." guibg="..colors.bg.." gui=bold")
-
--- Extra highlights for UI
-vim.cmd("highlight Pmenu guibg=#111111 guifg="..colors.fg)
-vim.cmd("highlight PmenuSel guibg=#222222 guifg="..colors.blue)
-vim.cmd("highlight Search guibg=#333333 guifg="..colors.yellow)
-vim.cmd("highlight Visual guibg=#222222")
-vim.cmd("highlight StatusLine guibg=#111111 guifg="..colors.fg)
-vim.cmd("highlight StatusLineNC guibg=#111111 guifg="..colors.gray)
-vim.cmd("highlight TabLine guibg=#111111 guifg="..colors.gray)
-vim.cmd("highlight TabLineSel guibg=#111111 guifg="..colors.blue)
-vim.cmd("highlight LineNrAbove guifg="..colors.gray.." guibg="..colors.bg)
-vim.cmd("highlight LineNrBelow guifg="..colors.gray.." guibg="..colors.bg)
-
---vim.o.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-CursorIM,r-cr:hor20-CursorReplace"
