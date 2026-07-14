@@ -32,6 +32,23 @@ set mouse=a
 let mapleader = " "
 nnoremap <Space> <Nop> 
 " Keyboard shortcuts Vscode
+
+
+" Use system clipboard
+set clipboard=unnamedplus
+
+" Ctrl+C:
+" - Visual mode: copy selection
+" - Normal mode: copy whole line
+vnoremap <C-c> "+y
+nnoremap <C-c> "+yy
+
+" Ctrl+V paste
+inoremap <C-v> <C-r>+
+nnoremap <C-v> "+p
+vnoremap <C-v> "+p
+
+
 nnoremap <C-Down> :m .+1<CR>==
 vnoremap <C-Down> :m .+1<CR>==
 " Move current line up with Ctrl + Up
@@ -515,17 +532,17 @@ augroup END
 
 
 "# Status Line
-set laststatus=2 " always show status bar
+"set laststatus=2 " always show status bar
 
 
-set statusline=
-set statusline+=%7*\[%n]                                  " buffernr
-set statusline+=%1*\ %<%F\                                " File+path
-set statusline+=%2*\ %y\                                  " FileType
-set statusline+=%8*\ %=\                                 " Right align
-set statusline+=%3*\-%{g:search_count_status}-\ 
-set statusline+=%8*\ %=\                                 " Right align
-set statusline+=%8*\ %l/%L\                               " Rownumber/total
+"set statusline=
+"set statusline+=%7*\[%n]                                  " buffernr
+"set statusline+=%1*\ %<%F\                                " File+path
+"set statusline+=%2*\ %y\                                  " FileType
+"set statusline+=%8*\ %=\                                 " Right align
+"set statusline+=%3*\-%{g:search_count_status}-\ 
+"set statusline+=%8*\ %=\                                 " Right align
+"set statusline+=%8*\ %l/%L\                               " Rownumber/total
 
 " From the internet 
 augroup VIMRC

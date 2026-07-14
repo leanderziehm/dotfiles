@@ -164,3 +164,5 @@ export PATH=$PATH:/home/user/installed/nvim/bin/
 . "$HOME/.local/bin/env"
 export EDITOR=vim
 alias dotfiles='/home/user/dotfiles/dotfiles.sh'
+alias vim='nvim'
+

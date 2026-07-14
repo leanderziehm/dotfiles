@@ -17,6 +17,26 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 
 
+-- VSCODE PASTE AND COPY: CTRL V and CTRL C
+vim.keymap.set("i", "<C-v>", "<C-r>+", { silent = true })
+vim.keymap.set("n", "<C-v>", '"+p', { silent = true })
+vim.keymap.set("v", "<C-v>", '"+p', { silent = true })
+vim.keymap.set("v", "<C-z>", 'u', { silent = true })
+-- Function to copy like VSCode
+local function copy_like_vscode()
+	local mode = vim.fn.mode()
+	if mode == "v" or mode == "V" or mode == "\22" then
+		-- If something is visually selected, yank it
+		vim.cmd('normal! "+y')
+	else
+		-- If nothing is selected, yank the whole line
+		vim.cmd('normal! "+yy')
+	end
+end
+-- Map Ctrl-C in normal and visual mode
+vim.keymap.set({ "n", "v" }, "<C-c>", copy_like_vscode, { silent = true })
+
+
 --- VSCODE LIKE
 vim.keymap.set("n", "<M-j>", ":m .+1<CR>==", { noremap = true, silent = true })
 vim.keymap.set("n", "<M-k>", ":m .-2<CR>==", { noremap = true, silent = true })
@@ -55,26 +75,6 @@ end
 
 vim.keymap.set("n", "<C-/>", toggle_comment, { silent = true, desc = "Toggle Comment" })
 vim.keymap.set("n", "<C-_>", toggle_comment, { silent = true, desc = "Toggle Comment" }) -- when in tmux
-
-
--- VSCODE PASTE AND COPY: CTRL V and CTRL C
-vim.keymap.set("i", "<C-v>", "<C-r>+", { silent = true })
-vim.keymap.set("n", "<C-v>", '"+p', { silent = true })
-vim.keymap.set("v", "<C-v>", '"+p', { silent = true })
-vim.keymap.set("v", "<C-z>", 'u', { silent = true })
--- Function to copy like VSCode
-local function copy_like_vscode()
-	local mode = vim.fn.mode()
-	if mode == "v" or mode == "V" or mode == "\22" then
-		-- If something is visually selected, yank it
-		vim.cmd('normal! "+y')
-	else
-		-- If nothing is selected, yank the whole line
-		vim.cmd('normal! "+yy')
-	end
-end
--- Map Ctrl-C in normal and visual mode
-vim.keymap.set({ "n", "v" }, "<C-c>", copy_like_vscode, { silent = true })
 
 
 -- Restore cursor position when reopening a file
