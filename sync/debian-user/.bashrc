@@ -164,5 +164,43 @@ export PATH=$PATH:/home/user/installed/nvim/bin/
 . "$HOME/.local/bin/env"
 export EDITOR=vim
 alias dotfiles='/home/user/dotfiles/dotfiles.sh'
-alias vim='nvim'
+# alias vim='nvim'
+
+confidant(){
+  sudo -iu confidant
+}
+
+notes(){
+  sudo -iu confidant vim /home/confidant/notes.md
+}
+
+postgres(){
+sudo -u postgres psql
+}
+
+
+#deb(){
+# distrobox ephemeral --image debian:stable
+# distrobox create --name toolbox --image ubuntu:24.04
+# distrobox enter toolbox
+#}
+
+#. /home/user/.nix-profile/etc/profile.d/nix.sh
+
+export PATH=$PATH:/home/user/go/bin
+export PATH=$PATH:/home/user/installed/platform-tools/
+
+
+password(){
+tr -dc 'A-Za-z0-9' < /dev/urandom | head -c 128; echo
+}
+
+bellm() {
+    sudo -iu llm tmux new-session -A -s main
+}
+
+
+
+
+
 
