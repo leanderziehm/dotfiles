@@ -148,7 +148,7 @@ let maplocalleader=" "
 " Theme
 " =========================================================
 
-colorscheme zellner
+"colorscheme zellner
 
 
 " =========================================================
@@ -202,10 +202,10 @@ nnoremap <leader>tn :call NextTheme()<CR>
 " Core UI
 " =========================================================
 
-set number
-set cursorline
-set signcolumn=yes
-set termguicolors
+"set number
+"set cursorline
+"set signcolumn=yes
+"set termguicolors
 
 
 " =========================================================
