@@ -1,0 +1,2 @@
+~/.mylz.vimrc
+~/.mylz.bashrc
