@@ -52,10 +52,14 @@ def sync():
     for line in lines:
         source_config_path_str = line.strip()
         source_config_path = Path(source_config_path_str).expanduser()
+
+        if source_config_path.exists():
         # verify that is valid path and file exits
-        destination_path = get_user_config_dir()/source_config_path.name
-        print(f"copy from {source_config_path} to {destination_path}")
-        shutil.copy2(source_config_path, destination_path)
+            destination_path = get_user_config_dir()/source_config_path.name
+            print(f"copy from {source_config_path} to {destination_path}")
+            shutil.copy2(source_config_path, destination_path)
+        else:
+            logger.warning(f"source_config_path: {source_config_path}  does not exist")
 
 
 def install():

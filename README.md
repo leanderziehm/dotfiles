@@ -1,3 +1,35 @@
+# Dotfiles
+
+
+## Run
+```
+git clone git@github.com:leanderziehm/dotfiles.git
+```
+or http:
+```
+git clone https://github.com/leanderziehm/dotfiles.git
+```
+
+
+
+```
+make install
+```
+
+```
+make sync
+```
+
+```
+make uninstall
+```
+
+
+
+
+
+
+
 
 # Vim
 ```
