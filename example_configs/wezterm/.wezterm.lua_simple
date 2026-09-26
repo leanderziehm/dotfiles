@@ -1,0 +1,12 @@
+user@fedora:~$ cat .wezterm.lua
+local wezterm = require 'wezterm'
+
+local config = {}
+
+config.enable_tab_bar = false;
+config.window_close_confirmation = 'NeverPrompt'
+
+-- config.window_decorations = "NONE"; --no borders
+-- config.enable_wayland = false -- if ussues try it
+
+return config
