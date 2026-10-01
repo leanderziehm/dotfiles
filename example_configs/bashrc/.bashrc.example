@@ -1,0 +1,26 @@
+
+sb(){
+source ~/.bashrc
+}
+
+ob(){
+vim ~/.bashrc
+}
+
+alias code='flatpak run com.visualstudio.code --'
+
+work() {
+    if [[ "$1" == "create" ]]; then
+        podman run -it \
+            --name "work-$2" \
+            --userns keep-id \
+            -v "$(realpath "$3"):/workspace:Z" \
+            -w /workspace \
+            ghcr.io/leanderziehm/dev-environment-fedora:latest
+    elif [[ "$1" == "ps" ]]; then
+        podman ps -a --filter "name=^work-" \
+            --format "table {{.Names}}\t{{.Status}}"
+    else
+        podman start -ai "work-$1"
+    fi
+}
