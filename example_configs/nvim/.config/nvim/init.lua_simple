@@ -1,2 +1,191 @@
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
+
+vim.cmd("syntax on")
+--vim.cmd("filetype plugin indent on")
+
+-- Enable true color support in your terminal
+vim.opt.termguicolors = true
+
+-- clipboard
+
+--- VSCODE
+
+-- for some reason doesnt work. TODO: make it work to open config with keyboard shortcut
+-- local open_config = function()
+--   vim.cmd.edit(vim.env.MYVIMRC)
+-- end
+--
+-- vim.keymap.set("n", "<C-,>", open_config, { desc = "Open init.lua" })
+-- vim.keymap.set("n", "<leader>,", open_config, { desc = "Open init.lua" })
+
+
+-- move with alt
+vim.keymap.set("n", "<M-j>", ":m .+1<CR>==", { noremap = true, silent = true })
+vim.keymap.set("n", "<M-k>", ":m .-2<CR>==", { noremap = true, silent = true })
+vim.keymap.set("v", "<M-j>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
+vim.keymap.set("v", "<M-k>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
+vim.keymap.set("n", "<M-Down>", ":m .+1<CR>==", { noremap = true, silent = true })
+vim.keymap.set("n", "<M-Up>", ":m .-2<CR>==", { noremap = true, silent = true })
+vim.keymap.set("v", "<M-Down>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
+vim.keymap.set("v", "<M-Up>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
+
+-- Disable Shift+Arrow completely
+local opts = { noremap = true, silent = true }
+
+vim.keymap.set({ "n", "i", "v" }, "<S-Up>", "<Nop>", opts)
+vim.keymap.set({ "n", "i", "v" }, "<S-Down>", "<Nop>", opts)
+vim.keymap.set({ "n", "i", "v" }, "<S-Left>", "<Nop>", opts)
+vim.keymap.set({ "n", "i", "v" }, "<S-Right>", "<Nop>", opts)
+
+
+
+-- toggle comment
+local function toggle_comment()
+        local cs = vim.bo.commentstring
+        if cs == "" then
+                return
+        end -- exit if no commentstring defined
+
+        -- extract the actual comment marker (e.g., "%s" -> remove it)
+        local marker = cs:gsub("%%s", ""):gsub("^%s*(.-)%s*$", "%1")
+
+        local row = vim.api.nvim_win_get_cursor(0)[1] - 1 -- 0-indexed
+        local line = vim.api.nvim_buf_get_lines(0, row, row + 1, false)[1]
+
+        -- Toggle comment
+        if line:match("^%s*" .. vim.pesc(marker)) then
+                -- Uncomment
+                line = line:gsub("^(%s*)" .. vim.pesc(marker) .. "%s?", "%1")
+        else
+                -- Comment
+                line = marker .. " " .. line
+        end
+
+        vim.api.nvim_buf_set_lines(0, row, row + 1, false, { line })
+end
+
+vim.keymap.set("n", "<C-/>", toggle_comment, { silent = true, desc = "Toggle Comment" })
+vim.keymap.set("n", "<C-_>", toggle_comment, { silent = true, desc = "Toggle Comment" }) -- when in tmux
+
+
+
+--  ============================================================
+--  Terminal
+--  ============================================================
+-- vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { silent = true })
+-- Terminal toggle with Ctrl-J
+local term_buf = nil
+local term_win = nil
+
+local function toggle_terminal()
+        if term_win and vim.api.nvim_win_is_valid(term_win) then
+                vim.api.nvim_win_close(term_win, true)
+                term_win = nil
+                return
+        end
+        vim.cmd("botright split")
+        vim.cmd("resize 15")
+
+        if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
+                vim.api.nvim_win_set_buf(0, term_buf)
+        else
+                vim.cmd("terminal")
+                term_buf = vim.api.nvim_get_current_buf()
+        end
+
+        term_win = vim.api.nvim_get_current_win()
+        vim.cmd("startinsert")
+end
+
+vim.keymap.set("n", "<C-j>", toggle_terminal, { silent = true, desc = "Toggle terminal" })
+vim.keymap.set("t", "<C-j>", toggle_terminal, { silent = true, desc = "Toggle terminal" })
+
+
+
+
+
+-- COLORS
+
+local themes = vim.fn.getcompletion("", "color")
+local current = 1
+
+vim.keymap.set("n", "<Space>t", function()
+  if #themes == 0 then
+    return
+  end
+
+  current = current % #themes + 1
+  vim.cmd.colorscheme(themes[current])
+  print(vim.g.colors_name)
+end, { desc = "Next colorscheme" })
+
+vim.cmd("colorscheme unokai")
+
+vim.api.nvim_set_hl(0, "Normal", { bg = "#242424" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#242424" })
+vim.api.nvim_set_hl(0, "SignColumn", { bg = "#242424" })
+vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "#242424" })
+
+
+-- vim.api.nvim_set_hl(0, "Normal", { bg = "#181818" })
+-- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#181818" })
+-- vim.api.nvim_set_hl(0, "SignColumn", { bg = "#181818" })
+-- vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "#181818" })
+
+-- vim.api.nvim_set_hl(0, "Normal", { bg = "#0a0a0a" })
+-- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#0a0a0a" })
+-- vim.api.nvim_set_hl(0, "SignColumn", { bg = "#0a0a0a" })
+-- vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "#0a0a0a" })
+
+-- #lunaperche
+-- #slate
+-- #sorbet  2
+-- #unokai but a bit darker baground and more contrast pelease more vibrance. and functions instead of green blue or yellow and text orange and import and with less srrong dorker red strings more yellow orange.
+-- # vim yellow for with and as is to yellow to strong
+-- # zaibatzu
+-- # default
+-- # elford but the red of brackets and : is to strong 
+-- # industry but the yellow of import is too strong
+-- # koher but the yellow from with and as is too stong
+-- # 
+
+-- COLOR END
+
+
+-- =========================================================
+-- Unified swap / undo / backup directories
+-- =========================================================
+
+-- Base data directory (cross-platform safe)
+local data_dir = vim.fn.stdpath("data")
+
+-- Ensure directory exists helper
+local function ensure_dir(dir)
+        if vim.fn.isdirectory(dir) == 0 then
+                vim.fn.mkdir(dir, "p")
+        end
+end
+
+-- === Undo ===
+local undo_dir = data_dir .. "/undo"
+ensure_dir(undo_dir)
+vim.o.undofile = true
+vim.o.undodir = undo_dir
+
+-- === Swap ===
+local swap_dir = data_dir .. "/swap"
+ensure_dir(swap_dir)
+vim.o.directory = swap_dir
+
+-- === Backup ===
+local backup_dir = data_dir .. "/backup"
+ensure_dir(backup_dir)
+vim.o.backup = true
+vim.o.writebackup = true
+vim.o.backupdir = backup_dir
+
+-- Optional: more sane defaults
+vim.o.undolevels = 1000
+vim.o.undoreload = 10000
+vim.o.backupcopy = "yes" -- avoid issues with some tools like git
