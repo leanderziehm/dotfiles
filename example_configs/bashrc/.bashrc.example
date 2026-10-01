@@ -24,3 +24,5 @@ work() {
         podman start -ai "work-$1"
     fi
 }
+
+alias vim=nvim
