@@ -1,0 +1,7 @@
+set -g mouse on
+set -g status-position top
+
+# set -g set-clipboard on
+# bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "wl-copy"
+# bind -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "wl-copy"
+# tmux source-file ~/.tmux.conf
